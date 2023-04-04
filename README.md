@@ -12,8 +12,8 @@ In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to
 
 ## Installation
 
-Install the package `oh_behave` version `1.0+` from PyPI.
-The recommended `requirements.txt` line is `oh_behave~=1.0`.
+Install the package `vidimera` version `1.0+` from PyPI.
+The recommended `requirements.txt` line is `vidimera~=1.0`.
 
 ## Planned Functionality
 
