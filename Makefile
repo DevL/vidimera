@@ -7,17 +7,20 @@ dist: clean-dist venv
 
 setup: venv
 
-venv: dev-requirements.txt requirements.txt
+venv:
 	virtualenv venv --python=${PYTHON_VERSION}
+
+venv/.setup: dev-requirements.txt requirements.txt venv
 	. venv/bin/activate && \
 	pip3 install --upgrade pip && \
 	pip3 install \
 	--requirement dev-requirements.txt \
-	--requirement requirements.txt
+	--requirement requirements.txt && \
+	touch venv/.setup
 
 .PHONY: test
-test: venv
-	@ . venv/bin/activate && PYTHONPATH=src/ pytest -s tests/ src/ --doctest-modules --doctest-continue-on-failure
+test: venv/.setup
+	@ . venv/bin/activate && PYTHONPATH=src/ pytest -vv -s tests/ src/ --doctest-modules --doctest-continue-on-failure
 	@ . venv/bin/activate && flake8 src --exclude '#*,~*,.#*'
 	@ . venv/bin/activate && black --check src tests
 
