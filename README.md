@@ -8,7 +8,7 @@
 
 _Python signature and behaviour checker inspired by Elixir._
 
-In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to attest that a copy of a document is accurate compared to the original.  
+In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to attest that a copy of a document is accurate compared to the original.
 
 ## Installation
 
