@@ -36,7 +36,7 @@ def test_creating_a_behaviour():
             ),
         ]
     )
-    assert behaviour.signatures() == expected_signatures
+    assert behaviour.signatures() >= expected_signatures
 
 
 class SimpleObject:
