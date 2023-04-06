@@ -1,6 +1,6 @@
 from functools import partial
 from inspect import Signature, Parameter
-from src.vidimera import Behaviour, NoSignature
+from src.vidimera import Behaviour
 
 
 def test_createing_a_behaviour():
@@ -9,7 +9,7 @@ def test_createing_a_behaviour():
     assert repr(behaviour) == "<Behaviour of <class 'tests.behaviour_test.SimpleObject'>>"
     expected_signatures = set(
         [
-            ("__class__", NoSignature),
+            ("__class__", Behaviour.NO_SIGNATURE),
             ("__delattr__", _method("name")),
             ("__dir__", _method()),
             ("__eq__", _method("other", kind=Parameter.POSITIONAL_OR_KEYWORD)),
@@ -18,7 +18,7 @@ def test_createing_a_behaviour():
             ("__getattribute__", _method("name")),
             ("__gt__", _method("value")),
             ("__init__", _method("value", kind=Parameter.POSITIONAL_OR_KEYWORD)),
-            ("__init_subclass__", NoSignature),
+            ("__init_subclass__", Behaviour.NO_SIGNATURE),
             ("__le__", _method("value")),
             ("__lt__", _method("value")),
             ("__ne__", _method("value")),
@@ -29,14 +29,10 @@ def test_createing_a_behaviour():
             ("__setattr__", _method("name", "value")),
             ("__sizeof__", _method()),
             ("__str__", _method()),
-            ("__subclasshook__", NoSignature),
+            ("__subclasshook__", Behaviour.NO_SIGNATURE),
             (
                 "public_method",
-                _method(
-                    "*args",
-                    "**kwargs",
-                    kind=Parameter.POSITIONAL_OR_KEYWORD,
-                ),
+                _method("*args", "**kwargs", kind=Parameter.POSITIONAL_OR_KEYWORD),
             ),
         ]
     )

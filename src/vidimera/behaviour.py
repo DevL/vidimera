@@ -1,9 +1,9 @@
 from inspect import signature
 
-NoSignature = object()
-
 
 class Behaviour:
+    NO_SIGNATURE = object()
+
     def __init__(self, obj):
         self.obj = obj
 
@@ -45,4 +45,4 @@ def _safe_signature(func):
     try:
         return signature(func)
     except ValueError:
-        return NoSignature
+        return Behaviour.NO_SIGNATURE
