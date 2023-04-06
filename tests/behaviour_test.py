@@ -3,7 +3,7 @@ from inspect import Signature, Parameter
 from src.vidimera import Behaviour
 
 
-def test_createing_a_behaviour():
+def test_creating_a_behaviour():
     assert Behaviour(SimpleObject)
     behaviour = Behaviour(SimpleObject)
     assert repr(behaviour) == "<Behaviour of <class 'tests.behaviour_test.SimpleObject'>>"
