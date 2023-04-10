@@ -24,6 +24,11 @@ test: venv/.setup
 	@ . venv/bin/activate && flake8 src --exclude '#*,~*,.#*'
 	@ . venv/bin/activate && black --check src tests
 
+.PHONY: watch
+watch: venv/.setup
+	@ . venv/bin/activate && PYTHONPATH=src/ pytest -vv -s tests/ src/ --doctest-modules --doctest-continue-on-failure
+	@ . venv/bin/activate && PYTHONPATH=src/ ptw . -vv -s --doctest-modules --doctest-continue-on-failure
+
 .PHONY: clean
 clean: clean-dist
 	rm -rf venv
