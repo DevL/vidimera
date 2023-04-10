@@ -1,14 +1,18 @@
 from functools import partial
-from inspect import Signature, Parameter
+from inspect import Parameter, Signature
 from src.vidimera import Behaviour
+from .assets import SimpleObject
 
 
-def test_creating_a_behaviour():
-    assert Behaviour(SimpleObject)
-    behaviour = Behaviour(SimpleObject)
-    assert repr(behaviour) == "<Behaviour of <class 'tests.behaviour_test.SimpleObject'>>"
+def test_repr():
+    assert repr(Behaviour(object)) == "<Behaviour of <class 'object'>>"
+
+
+def test_signatures():
     expected_signatures = set(
         [
+            ("A_CALLABLE_CONTSTANT", _signature("value", kind=Parameter.POSITIONAL_OR_KEYWORD)),
+            ("__call__", _method("func", kind=Parameter.POSITIONAL_OR_KEYWORD)),
             ("__class__", Behaviour.NO_SIGNATURE),
             ("__delattr__", _method("name")),
             ("__dir__", _method()),
@@ -36,21 +40,8 @@ def test_creating_a_behaviour():
             ),
         ]
     )
+    behaviour = Behaviour(SimpleObject)
     assert behaviour.signatures() >= expected_signatures
-
-
-class SimpleObject:
-    def __init__(self, value):
-        self.value = value
-
-    def public_method(self, *args, **kwargs):
-        pass
-
-    def _private_method(self):
-        pass
-
-    def __eq__(self, other):
-        return self.value == other
 
 
 def _method(*params, kind=Parameter.POSITIONAL_ONLY):
@@ -58,8 +49,7 @@ def _method(*params, kind=Parameter.POSITIONAL_ONLY):
 
 
 def _signature(*params, kind=Parameter.POSITIONAL_ONLY):
-    to_param = partial(_param, kind)
-    return Signature(parameters=map(to_param, params))
+    return Signature(parameters=map(partial(_param, kind), params))
 
 
 def _param(kind, name):
