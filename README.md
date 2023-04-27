@@ -15,11 +15,13 @@ In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to
 Install the package `vidimera` version `1.0+` from PyPI.
 The recommended `requirements.txt` line is `vidimera~=1.0`.
 
-## Planned Functionality
+## Current Functionality
 
 ### `Behaviour(object)
 - a new behaviour instance
 - If object already is an instance of Behaviour, it is returned unchanged.
+
+## Planned Functionality
 
 ### `behaviour.implemented_by(other)`
 - verifies that other has the same public and dunderscore callables with the same signatures as the behaviour.

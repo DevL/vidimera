@@ -14,6 +14,12 @@ def test_repr():
     assert repr(Behaviour(object)) == "<Behaviour of <class 'object'>>"
 
 
+def test_creating_a_behaviour_of_another_behaviour_returns_it_unchanged(behaviour):
+    expected_signatures = behaviour.signatures()
+    assert Behaviour(behaviour) is behaviour
+    assert Behaviour(behaviour).signatures() == expected_signatures
+
+
 def test_signatures(behaviour):
     expected_signatures = set(
         [

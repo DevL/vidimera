@@ -9,8 +9,12 @@ class Behaviour:
     SPECIAL = r"__\w+__"
     PUBLIC_AND_SPECIAL = f"({PUBLIC}|{SPECIAL})"
 
+    def __new__(cls, obj):
+        return obj if isinstance(obj, cls) else super().__new__(cls)
+
     def __init__(self, obj):
-        self.obj = obj
+        if not isinstance(obj, self.__class__):
+            self.obj = obj
 
     def __repr__(self):
         return f"<Behaviour of {repr(self.obj)}>"
