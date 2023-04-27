@@ -5,6 +5,7 @@ def identity(value):
 class SimpleObject:
     A_CONSTANT = 1
     A_CALLABLE_CONTSTANT = identity
+    A_LAMBDA = lambda x, y: x + y  # noqa
 
     def __init__(self, value):
         self.value = value

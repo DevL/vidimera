@@ -12,6 +12,7 @@ def test_signatures():
     expected_signatures = set(
         [
             signature("A_CALLABLE_CONTSTANT", "value"),
+            signature("A_LAMBDA", "x", "y"),
             defined("__call__", "func"),
             no_signature("__class__"),
             inherited("__delattr__", "name"),
