@@ -4,7 +4,6 @@ import re
 
 class Behaviour:
     NO_SIGNATURE = object()
-    NO_SIGNATURE = object()
     PUBLIC = r"[a-zA-Z]\w*"
     PRIVATE = f"_{PUBLIC}"
     SPECIAL = r"__\w+__"
