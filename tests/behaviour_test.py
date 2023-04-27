@@ -42,6 +42,55 @@ def test_signatures():
     assert behaviour.signatures() >= expected_signatures
 
 
+def test_public_signatures():
+    expected_signatures = set(
+        [
+            signature("A_CALLABLE_CONTSTANT", "value"),
+            signature("A_LAMBDA", "x", "y"),
+            defined("public_method", "*args", "**kwargs"),
+        ]
+    )
+    behaviour = Behaviour(SimpleObject, scope=Behaviour.PUBLIC)
+    assert behaviour.signatures() >= expected_signatures
+
+
+def test_special_signatures():
+    expected_signatures = set(
+        [
+            defined("__call__", "func"),
+            no_signature("__class__"),
+            inherited("__delattr__", "name"),
+            inherited("__dir__"),
+            defined("__eq__", "other"),
+            inherited("__format__", "format_spec"),
+            inherited("__ge__", "value"),
+            inherited("__getattribute__", "name"),
+            inherited("__gt__", "value"),
+            defined("__init__", "value"),
+            no_signature("__init_subclass__"),
+            inherited("__le__", "value"),
+            inherited("__lt__", "value"),
+            inherited("__ne__", "value"),
+            signature("__new__", "*args", "**kwargs"),
+            inherited("__reduce__"),
+            inherited("__reduce_ex__", "protocol"),
+            inherited("__repr__"),
+            inherited("__setattr__", "name", "value"),
+            inherited("__sizeof__"),
+            inherited("__str__"),
+            no_signature("__subclasshook__"),
+        ]
+    )
+    behaviour = Behaviour(SimpleObject, scope=Behaviour.SPECIAL)
+    assert behaviour.signatures() >= expected_signatures
+
+
+def test_signatures_default_to_both_public_and_special():
+    default = Behaviour(SimpleObject)
+    public_and_special = Behaviour(SimpleObject, scope=Behaviour.PUBLIC_AND_SPECIAL)
+    assert default.signatures() == public_and_special.signatures()
+
+
 def defined(name, *params):
     return signature(name, "self", *params, kind=Parameter.POSITIONAL_OR_KEYWORD)
 

@@ -1,18 +1,25 @@
 from inspect import signature
+import re
 
 
 class Behaviour:
     NO_SIGNATURE = object()
+    NO_SIGNATURE = object()
+    PUBLIC = r"[a-zA-Z]\w*"
+    PRIVATE = f"_{PUBLIC}"
+    SPECIAL = r"__\w+__"
+    PUBLIC_AND_SPECIAL = f"({PUBLIC}|{SPECIAL})"
 
-    def __init__(self, obj):
+    def __init__(self, obj, scope=PUBLIC_AND_SPECIAL):
         self.obj = obj
+        self.pattern = re.compile(scope)
 
     def __repr__(self):
         return f"<Behaviour of {repr(self.obj)}>"
 
     def signatures(self):
         contents = dir(self.obj)
-        included = filter(_included, contents)
+        included = filter(self.pattern.match, contents)
         candidates = map(self._name_and_attribute, included)
         callables = filter(_callable, candidates)
         return {(name, _safe_signature(func)) for name, func in callables}
@@ -23,38 +30,6 @@ class Behaviour:
 
 def _callable(name_and_attribute):
     return callable(name_and_attribute[1])
-
-
-def _included(name):
-    """
-    >>> _included("_private")
-    False
-
-    >>> _included("__special__")
-    True
-
-    >>> _included("public")
-    True
-
-    >>> _included("__leading_dunderscore")
-    False
-
-    >>> _included("trailing_dunderscore__")
-    True
-    """
-    return _public(name) or _special_method(name)
-
-
-def _public(name):
-    return not _private(name)
-
-
-def _private(name):
-    return name.startswith("_")
-
-
-def _special_method(name):
-    return name.startswith("__") and name.endswith("__")
 
 
 def _safe_signature(func):
