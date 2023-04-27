@@ -1,7 +1,7 @@
 from functools import partial
 from inspect import Parameter, Signature
 from src.vidimera import Behaviour
-from .assets import SimpleObject
+from .assets import Interface, Implementation, PartialImplementation, SimpleObject
 
 
 def test_repr():
@@ -89,6 +89,20 @@ def test_signatures_default_to_both_public_and_special():
     default = Behaviour(SimpleObject)
     public_and_special = Behaviour(SimpleObject, scope=Behaviour.PUBLIC_AND_SPECIAL)
     assert default.signatures() == public_and_special.signatures()
+
+
+def test_signature_comparisons():
+    interface = Behaviour(Interface).signatures()
+    implementation = Behaviour(Implementation).signatures()
+    partial_implementation = Behaviour(PartialImplementation).signatures()
+
+    assert implementation > interface
+    assert implementation - interface == {defined("additional_instance_method")}
+    assert implementation - interface == partial_implementation - interface
+
+    assert implementation > partial_implementation
+    assert implementation - partial_implementation == {defined("method", "a", "b")}
+    assert implementation - partial_implementation == interface - partial_implementation
 
 
 def defined(name, *params):
