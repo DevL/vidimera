@@ -26,6 +26,22 @@ def _callable(name_and_attribute):
 
 
 def _included(name):
+    """
+    >>> _included("_private")
+    False
+
+    >>> _included("__special__")
+    True
+
+    >>> _included("public")
+    True
+
+    >>> _included("__leading_dunderscore")
+    False
+
+    >>> _included("trailing_dunderscore__")
+    True
+    """
     return _public(name) or _special_method(name)
 
 
