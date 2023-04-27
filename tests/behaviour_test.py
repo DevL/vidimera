@@ -1,14 +1,20 @@
+import pytest
 from functools import partial
 from inspect import Parameter, Signature
 from src.vidimera import Behaviour
 from .assets import Interface, Implementation, PartialImplementation, SimpleObject
 
 
+@pytest.fixture
+def behaviour():
+    return Behaviour(SimpleObject)
+
+
 def test_repr():
     assert repr(Behaviour(object)) == "<Behaviour of <class 'object'>>"
 
 
-def test_signatures():
+def test_signatures(behaviour):
     expected_signatures = set(
         [
             signature("A_CALLABLE_CONTSTANT", "value"),
@@ -38,11 +44,10 @@ def test_signatures():
             defined("public_method", "*args", "**kwargs"),
         ]
     )
-    behaviour = Behaviour(SimpleObject)
     assert behaviour.signatures() >= expected_signatures
 
 
-def test_public_signatures():
+def test_public_signatures(behaviour):
     expected_signatures = set(
         [
             signature("A_CALLABLE_CONTSTANT", "value"),
@@ -50,11 +55,15 @@ def test_public_signatures():
             defined("public_method", "*args", "**kwargs"),
         ]
     )
-    behaviour = Behaviour(SimpleObject, scope=Behaviour.PUBLIC)
-    assert behaviour.signatures() >= expected_signatures
+    assert behaviour.signatures(scope=Behaviour.PUBLIC) >= expected_signatures
 
 
-def test_special_signatures():
+def test_private_signatures(behaviour):
+    expected_signatures = set([defined("_private_method")])
+    assert behaviour.signatures(scope=Behaviour.PRIVATE) >= expected_signatures
+
+
+def test_special_signatures(behaviour):
     expected_signatures = set(
         [
             defined("__call__", "func"),
@@ -81,17 +90,14 @@ def test_special_signatures():
             no_signature("__subclasshook__"),
         ]
     )
-    behaviour = Behaviour(SimpleObject, scope=Behaviour.SPECIAL)
-    assert behaviour.signatures() >= expected_signatures
+    assert behaviour.signatures(scope=Behaviour.SPECIAL) >= expected_signatures
 
 
-def test_signatures_default_to_both_public_and_special():
-    default = Behaviour(SimpleObject)
-    public_and_special = Behaviour(SimpleObject, scope=Behaviour.PUBLIC_AND_SPECIAL)
-    assert default.signatures() == public_and_special.signatures()
+def test_signatures_default_to_both_public_and_special(behaviour):
+    assert behaviour.signatures() == behaviour.signatures(scope=Behaviour.PUBLIC_AND_SPECIAL)
 
 
-def test_signature_comparisons():
+def test_comparing_signatures():
     interface = Behaviour(Interface).signatures()
     implementation = Behaviour(Implementation).signatures()
     partial_implementation = Behaviour(PartialImplementation).signatures()

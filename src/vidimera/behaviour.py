@@ -10,16 +10,16 @@ class Behaviour:
     SPECIAL = r"__\w+__"
     PUBLIC_AND_SPECIAL = f"({PUBLIC}|{SPECIAL})"
 
-    def __init__(self, obj, scope=PUBLIC_AND_SPECIAL):
+    def __init__(self, obj):
         self.obj = obj
-        self.pattern = re.compile(scope)
 
     def __repr__(self):
         return f"<Behaviour of {repr(self.obj)}>"
 
-    def signatures(self):
+    def signatures(self, scope=PUBLIC_AND_SPECIAL):
+        pattern = re.compile(scope)
         contents = dir(self.obj)
-        included = filter(self.pattern.match, contents)
+        included = filter(pattern.match, contents)
         candidates = map(self._name_and_attribute, included)
         callables = filter(_callable, candidates)
         return {(name, _safe_signature(func)) for name, func in callables}
