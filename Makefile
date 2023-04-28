@@ -25,8 +25,7 @@ test: venv/.setup
 	@ . venv/bin/activate && black --check src tests
 
 .PHONY: watch
-watch: venv/.setup
-	@ . venv/bin/activate && PYTHONPATH=src/ pytest -vv -s tests/ src/ --doctest-modules --doctest-continue-on-failure
+watch: test
 	@ . venv/bin/activate && PYTHONPATH=src/ ptw . -vv -s --doctest-modules --doctest-continue-on-failure
 
 .PHONY: clean
