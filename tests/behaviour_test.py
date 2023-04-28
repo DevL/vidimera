@@ -118,6 +118,21 @@ def test_signatures_default_to_both_public_and_special(behaviour):
     assert behaviour.signatures() == behaviour.signatures(scope=Behaviour.PUBLIC_AND_SPECIAL)
 
 
+def test_signatures_with_a_custom_selection_pattern(behaviour):
+    expected_signatures = set(
+        [
+            defined("__eq__", "other"),
+            inherited("__ge__", "value"),
+            inherited("__gt__", "value"),
+            inherited("__le__", "value"),
+            inherited("__lt__", "value"),
+            inherited("__ne__", "value"),
+        ]
+    )
+    pattern = r"__[a-z]{2}__"
+    assert behaviour.signatures(pattern) == expected_signatures
+
+
 def test_comparing_signatures():
     interface = Behaviour(Interface).signatures()
     implementation = Behaviour(Implementation).signatures()
