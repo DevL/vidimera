@@ -12,8 +12,8 @@ In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to
 
 ## Installation
 
-Install the package `vidimera` version `1.0+` from PyPI.
-The recommended `requirements.txt` line is `vidimera~=1.0`.
+Install the package `vidimera` version `0.1+` from PyPI.
+The recommended `requirements.txt` line is `vidimera~=0.1`.
 
 ## Current Functionality
 
