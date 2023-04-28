@@ -1,5 +1,6 @@
 from inspect import signature
 import re
+from .missing_behaviour import MissingBehaviour
 
 
 class Behaviour:
@@ -23,7 +24,7 @@ class Behaviour:
         return self.__class__(other).implements(self)
 
     def implements(self, other):
-        return self.signatures() >= self.__class__(other).signatures()
+        return MissingBehaviour(self.__class__(other).signatures() - self.signatures())
 
     def signatures(self, scope=PUBLIC_AND_SPECIAL):
         pattern = re.compile(scope)

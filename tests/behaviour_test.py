@@ -1,28 +1,7 @@
-import pytest
 from functools import partial
 from inspect import Parameter, Signature
-from src.vidimera import Behaviour
-from .assets import Interface, Implementation, PartialImplementation, SimpleObject
-
-
-@pytest.fixture
-def behaviour():
-    return Behaviour(SimpleObject)
-
-
-@pytest.fixture
-def interface():
-    return Behaviour(Interface)
-
-
-@pytest.fixture
-def implementation():
-    return Behaviour(Implementation)
-
-
-@pytest.fixture
-def partial_implementation():
-    return Behaviour(PartialImplementation)
+from src.vidimera import Behaviour, MissingBehaviour
+from .assets import Interface, Implementation, PartialImplementation
 
 
 def test_repr():
@@ -159,6 +138,7 @@ def test_implements(interface, implementation, partial_implementation):
     assert implementation.implements(interface)
     assert not partial_implementation.implements(Interface)
     assert not partial_implementation.implements(interface)
+    assert isinstance(partial_implementation.implements(Interface), MissingBehaviour)
 
 
 def defined(name, *params):

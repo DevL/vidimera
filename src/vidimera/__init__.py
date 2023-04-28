@@ -1,4 +1,6 @@
+from .assertions import assert_implements
 from .behaviour import Behaviour
+from .missing_behaviour import MissingBehaviour
 
-__all__ = [Behaviour]
-__version__ = "0.1.0"
+__all__ = [assert_implements, Behaviour, MissingBehaviour]
+__version__ = "0.2.0"

@@ -12,10 +12,13 @@ In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to
 
 ## Installation
 
-Install the package `vidimera` version `0.1+` from PyPI.
-The recommended `requirements.txt` line is `vidimera~=0.1`.
+Install the package `vidimera` version `0.2+` from PyPI.
+The recommended `requirements.txt` line is `vidimera~=0.2`.
 
 ## Current Functionality
+
+### `assert_implements(object, expected)`
+- Raises an `AssertionError` listing missing callables and their signatures if there are any. Based on `behaviour.implements`.
 
 ### `Behaviour(object)`
 - Creates a new `Behaviour` instance.
@@ -32,3 +35,6 @@ The recommended `requirements.txt` line is `vidimera~=0.1`.
 ### `behaviour.signatures(scope=Behaviour.PUBLIC_AND_SPECIAL)`
 - Returns a `set` of tuples that represent the name and the callable selected based on the `scope`.
 - Possible scopes include `PUBLIC`, `PRIVATE`, `SPECIAL`, and `PUBLIC_AND_SPECIAL`.
+
+### `MissingBehaviour(delta)`
+- An internal representation of missing behaviour. Created from a set of names and signatures. If the set is empty, this object will be truthy. If the set is non-empty, this object is falsy.
