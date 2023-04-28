@@ -10,6 +10,21 @@ def behaviour():
     return Behaviour(SimpleObject)
 
 
+@pytest.fixture
+def interface():
+    return Behaviour(Interface)
+
+
+@pytest.fixture
+def implementation():
+    return Behaviour(Implementation)
+
+
+@pytest.fixture
+def partial_implementation():
+    return Behaviour(PartialImplementation)
+
+
 def test_repr():
     assert repr(Behaviour(object)) == "<Behaviour of <class 'object'>>"
 
@@ -115,6 +130,20 @@ def test_comparing_signatures():
     assert implementation > partial_implementation
     assert implementation - partial_implementation == {defined("method", "a", "b")}
     assert implementation - partial_implementation == interface - partial_implementation
+
+
+def test_implemented_by(interface, implementation, partial_implementation):
+    assert interface.implemented_by(Implementation)
+    assert interface.implemented_by(implementation)
+    assert not interface.implemented_by(PartialImplementation)
+    assert not interface.implemented_by(partial_implementation)
+
+
+def test_implements(interface, implementation, partial_implementation):
+    assert implementation.implements(Interface)
+    assert implementation.implements(interface)
+    assert not partial_implementation.implements(Interface)
+    assert not partial_implementation.implements(interface)
 
 
 def defined(name, *params):
