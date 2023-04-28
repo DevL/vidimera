@@ -17,19 +17,23 @@ The recommended `requirements.txt` line is `vidimera~=1.0`.
 
 ## Current Functionality
 
-### `Behaviour(object)
-- a new behaviour instance
-- If object already is an instance of Behaviour, it is returned unchanged.
-
-## Planned Functionality
+### `Behaviour(object)`
+- Creates a new `Behaviour` instance.
+- If `object` already is an instance of `Behaviour`, it is returned unchanged.
 
 ### `behaviour.implemented_by(other)`
-- verifies that other has the same public and dunderscore callables with the same signatures as the behaviour.
+- Verifies that `other` at least has the same public and dunderscore callables with the same signatures as the `behaviour`.
+- Creats a `Behaviour` from `other` before making the comparison.
 
-### `behaviour.implements(other_behaviour)`
-- Convenience alias for other_behaviour.implemented_by(behaviour)
-- If other_behaviour is not an instance of Behaviour, it will be turned into one. 
+### `behaviour.implements(other)`
+- Verifies that the `behaviour` at least has the same public and dunderscore callables with the same signatures as `other`.
+- Creats a `Behaviour` from `other` before making the comparison.
 
+### `behaviour.signatures(scope=Behaviour.PUBLIC_AND_SPECIAL)`
+- Returns a `set` of tuples that represent the name and the callable selected based on the `scope`.
+- Possible scopes include `PUBLIC`, `PRIVATE`, `SPECIAL`, and `PUBLIC_AND_SPECIAL`.
+
+## Possible Future Functionality
 
 ### Comparison operators
 `__ge__` and `__le__` could be added, but `__gt__` and `__lt__` would not make much sense semantically. Using `__eq__` as an alias for `implements` would lead to nice tests, though it wouldn’t actually be semantically correct AND it wouldn’t be transitive. Implementing `in` could be an alternative.
