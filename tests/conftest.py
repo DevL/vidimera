@@ -1,12 +1,23 @@
 import pytest
 from inspect import signature
 from src.vidimera import Behaviour, MissingBehaviour
-from .assets import Interface, Implementation, PartialImplementation, SimpleObject
+from .assets import (
+    Interface,
+    Implementation,
+    ImplementationWithDifferentConstructor,
+    PartialImplementation,
+    SimpleObject,
+)
 
 
 @pytest.fixture
 def behaviour():
     return Behaviour(SimpleObject)
+
+
+@pytest.fixture
+def different_constructor():
+    return Behaviour(ImplementationWithDifferentConstructor)
 
 
 @pytest.fixture

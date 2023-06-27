@@ -20,11 +20,13 @@ class Behaviour:
     def __repr__(self):
         return f"<Behaviour of {repr(self.obj)}>"
 
-    def implemented_by(self, other):
-        return self.__class__(other).implements(self)
+    def implemented_by(self, other, scope=PUBLIC_AND_SPECIAL):
+        return self.__class__(other).implements(self, scope=scope)
 
-    def implements(self, other):
-        return MissingBehaviour(self.__class__(other).signatures() - self.signatures())
+    def implements(self, other, scope=PUBLIC_AND_SPECIAL):
+        return MissingBehaviour(
+            self.__class__(other).signatures(scope=scope) - self.signatures(scope=scope)
+        )
 
     def signatures(self, scope=PUBLIC_AND_SPECIAL):
         pattern = re.compile(scope)

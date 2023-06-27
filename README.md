@@ -12,23 +12,23 @@ In Swedish, _vidimera_ means _to attest_ or _to certify_. It is commonly used to
 
 ## Installation
 
-Install the package `vidimera` version `0.2+` from PyPI.
-The recommended `requirements.txt` line is `vidimera~=0.2`.
+Install the package `vidimera` version `0.3+` from PyPI.
+The recommended `requirements.txt` line is `vidimera~=0.3`.
 
 ## Current Functionality
 
-### `assert_implements(object, expected)`
+### `assert_implements(object, expected, scope=Behaviour.PUBLIC_AND_SPECIAL)`
 - Raises an `AssertionError` listing missing callables and their signatures if there are any. Based on `behaviour.implements`.
 
 ### `Behaviour(object)`
 - Creates a new `Behaviour` instance.
 - If `object` already is an instance of `Behaviour`, it is returned unchanged.
 
-### `behaviour.implemented_by(other)`
+### `behaviour.implemented_by(other, scope=Behaviour.PUBLIC_AND_SPECIAL)`
 - Verifies that `other` at least has the same public and dunderscore callables with the same signatures as the `behaviour`.
 - Creats a `Behaviour` from `other` before making the comparison.
 
-### `behaviour.implements(other)`
+### `behaviour.implements(other, scope=Behaviour.PUBLIC_AND_SPECIAL)`
 - Verifies that the `behaviour` at least has the same public and dunderscore callables with the same signatures as `other`.
 - Creats a `Behaviour` from `other` before making the comparison.
 

@@ -126,18 +126,22 @@ def test_comparing_signatures():
     assert implementation - partial_implementation == interface - partial_implementation
 
 
-def test_implemented_by(interface, implementation, partial_implementation):
+def test_implemented_by(interface, implementation, partial_implementation, different_constructor):
     assert interface.implemented_by(Implementation)
     assert interface.implemented_by(implementation)
+    assert interface.implemented_by(different_constructor, scope=Behaviour.PUBLIC)
     assert not interface.implemented_by(PartialImplementation)
     assert not interface.implemented_by(partial_implementation)
+    assert not interface.implemented_by(different_constructor)
 
 
-def test_implements(interface, implementation, partial_implementation):
+def test_implements(interface, implementation, partial_implementation, different_constructor):
     assert implementation.implements(Interface)
     assert implementation.implements(interface)
     assert not partial_implementation.implements(Interface)
     assert not partial_implementation.implements(interface)
+    assert not different_constructor.implements(Interface)
+    assert different_constructor.implements(Interface, scope=Behaviour.PUBLIC)
     assert isinstance(partial_implementation.implements(Interface), MissingBehaviour)
 
 
