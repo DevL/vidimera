@@ -10,7 +10,7 @@ require_python_3_12_or_lower = pytest.mark.skipif(
 )
 
 require_python_3_13_or_higher = pytest.mark.skipif(
-    version_info < (3, 13), reason="invalid for Python 3.12 or lower"
+    version_info < (3, 13), reason="invalid for Python 3.12 and lower"
 )
 
 
