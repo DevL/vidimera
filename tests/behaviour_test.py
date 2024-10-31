@@ -1,7 +1,17 @@
+import pytest
 from functools import partial
 from inspect import Parameter, Signature
+from sys import version_info
 from src.vidimera import Behaviour, MissingBehaviour
 from .assets import Interface, Implementation, PartialImplementation
+
+require_python_3_12_or_lower = pytest.mark.skipif(
+    version_info > (3, 12), reason="invalid for Python 3.13 or higher"
+)
+
+require_python_3_13_or_higher = pytest.mark.skipif(
+    version_info < (3, 13), reason="invalid for Python 3.12 or lower"
+)
 
 
 def test_repr():
@@ -14,7 +24,43 @@ def test_creating_a_behaviour_of_another_behaviour_returns_it_unchanged(behaviou
     assert Behaviour(behaviour).signatures() == expected_signatures
 
 
+@require_python_3_13_or_higher
 def test_signatures(behaviour):
+    expected_signatures = set(
+        [
+            signature("A_CALLABLE_CONTSTANT", "value"),
+            signature("A_LAMBDA", "x", "y"),
+            defined("__call__", "func"),
+            no_signature("__class__"),
+            inherited("__delattr__", "name"),
+            inherited("__dir__"),
+            defined("__eq__", "other"),
+            inherited("__format__", "format_spec"),
+            inherited("__ge__", "value"),
+            inherited("__getattribute__", "name"),
+            inherited("__getstate__"),
+            inherited("__gt__", "value"),
+            defined("__init__", "value"),
+            signature("__init_subclass__"),
+            inherited("__le__", "value"),
+            inherited("__lt__", "value"),
+            inherited("__ne__", "value"),
+            signature("__new__", "*args", "**kwargs"),
+            inherited("__reduce__"),
+            inherited("__reduce_ex__", "protocol"),
+            inherited("__repr__"),
+            inherited("__setattr__", "name", "value"),
+            inherited("__sizeof__"),
+            inherited("__str__"),
+            signature("__subclasshook__", "object", kind=Parameter.POSITIONAL_ONLY),
+            defined("public_method", "*args", "**kwargs"),
+        ]
+    )
+    assert behaviour.signatures() >= expected_signatures
+
+
+@require_python_3_12_or_lower
+def test_signatures_for_python_3_12_and_older(behaviour):
     expected_signatures = set(
         [
             signature("A_CALLABLE_CONTSTANT", "value"),
@@ -63,7 +109,42 @@ def test_private_signatures(behaviour):
     assert behaviour.signatures(scope=Behaviour.PRIVATE) >= expected_signatures
 
 
+@require_python_3_13_or_higher
 def test_special_signatures(behaviour):
+    expected_signatures = set(
+        [
+            defined("__call__", "func"),
+            no_signature("__class__"),
+            inherited("__delattr__", "name"),
+            inherited("__dir__"),
+            defined("__eq__", "other"),
+            inherited("__format__", "format_spec"),
+            inherited("__ge__", "value"),
+            inherited("__getattribute__", "name"),
+            inherited("__getstate__"),
+            inherited("__gt__", "value"),
+            defined("__init__", "value"),
+            # no_signature("__init_subclass__"),
+            signature("__init_subclass__"),
+            inherited("__le__", "value"),
+            inherited("__lt__", "value"),
+            inherited("__ne__", "value"),
+            signature("__new__", "*args", "**kwargs"),
+            inherited("__reduce__"),
+            inherited("__reduce_ex__", "protocol"),
+            inherited("__repr__"),
+            inherited("__setattr__", "name", "value"),
+            inherited("__sizeof__"),
+            inherited("__str__"),
+            # no_signature("__subclasshook__"),
+            signature("__subclasshook__", "object", kind=Parameter.POSITIONAL_ONLY),
+        ]
+    )
+    assert behaviour.signatures(scope=Behaviour.SPECIAL) >= expected_signatures
+
+
+@require_python_3_12_or_lower
+def test_special_signatures_for_python_3_12_and_older(behaviour):
     expected_signatures = set(
         [
             defined("__call__", "func"),
