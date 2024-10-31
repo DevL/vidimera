@@ -37,3 +37,11 @@ clean-dist:
 	rm -rf build
 	rm -rf src/vidimera.egg-info
 	rm -rf dist
+
+.PHONY: release
+release: test dist
+	. venv/bin/activate && twine upload dist/*
+
+.PHONY: test-release
+test-release: test dist
+	. venv/bin/activate && twine upload -r testpypi dist/*
