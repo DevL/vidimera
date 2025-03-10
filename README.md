@@ -1,5 +1,7 @@
 # Vidimera
 
+**NB:** This repository has been moved to [https://codeberg.org/DevL/vidimera](https://codeberg.org/DevL/vidimera).
+
 ![PyPI](https://img.shields.io/pypi/v/vidimera)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/vidimera)
 ![PyPI - Status](https://img.shields.io/pypi/status/vidimera)
